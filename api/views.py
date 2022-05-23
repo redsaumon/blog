@@ -16,6 +16,11 @@ from common.permissions import IsOwnerOrReadOnly
 class CommentViewSet(ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+    permissions_class = [IsOwnerOrReadOnly]
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        serializer.save(user=user)
 
 
 class CateTagAPIView(APIView):
@@ -45,6 +50,10 @@ class PostPageNumberPagination(PageNumberPagination):
 class PostCreateAPIView(CreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        serializer.save(user=user)
 
 
 class PostListAPIView(ListAPIView):
@@ -87,11 +96,13 @@ def get_prev_next(instance):
 class PostRetrieveAPIView(RetrieveDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializerDetail
+    permissions_class = (IsOwnerOrReadOnly, )
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         prevInstance, nextInstance = get_prev_next(instance)
         commentList = instance.comment_set.all()
+
         data = {
             'post': instance,
             'prevPost': prevInstance,

@@ -4,15 +4,19 @@ from api.models import Post, Comment, Category, Tag
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
+
     class Meta:
         model = Comment
         fields = '__all__'
 
 
 class CommentSerializerSub(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
+
     class Meta:
         model = Comment
-        fields = ['id', 'content', 'update_dt']
+        fields = ['id', 'content', 'update_dt', 'user']
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -35,6 +39,7 @@ class PostListSerializer(serializers.ModelSerializer):
 class PostRetrieveSerializer(serializers.ModelSerializer):
     category = serializers.StringRelatedField()
     tags = serializers.StringRelatedField(many=True)
+    user = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Post

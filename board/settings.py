@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     #django-allauth
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',
 
     #apps
     'api',
