@@ -9,7 +9,8 @@ from rest_framework.viewsets import ModelViewSet
 from api.serializers import CommentSerializer, PostListSerializer, \
     CateTagSerializer, PostSerializerDetail, PostSerializer
 from api.models import Post, Comment, Category, Tag
-from config import PAGE_SIZE
+from config import config
+from common.permissions import IsOwnerOrReadOnly
 
 
 class CommentViewSet(ModelViewSet):
@@ -31,7 +32,7 @@ class CateTagAPIView(APIView):
 
 
 class PostPageNumberPagination(PageNumberPagination):
-    page_size = PAGE_SIZE
+    page_size = config.PAGE_SIZE
 
     def get_paginated_response(self, data):
         return Response(OrderedDict([
@@ -50,7 +51,6 @@ class PostListAPIView(ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostListSerializer
     pagination_class = PostPageNumberPagination
-
 
     def get_serializer_context(self):
         return {

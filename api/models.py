@@ -2,6 +2,7 @@ from django.db import models
 
 
 class Post(models.Model):
+    user = models.ForeignKey('users.User', on_delete=models.CASCADE)
     category = models.ForeignKey('Category', on_delete=models.SET_NULL, blank=True, null=True)
     tags = models.ManyToManyField('Tag', blank=True)
     title = models.CharField(max_length=50)

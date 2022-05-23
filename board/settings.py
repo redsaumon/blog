@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-import config
+from config import config
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -54,7 +54,6 @@ INSTALLED_APPS = [
     #django-allauth
     'allauth',
     'allauth.account',
-    'allauth.socialaccount',
 
     #apps
     'api',
@@ -189,10 +188,7 @@ CORS_ALLOW_HEADERS = (
 ## DRF
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-        'rest_framework.permissions.IsAdminUser',
-        'rest_framework.permissions.AllowAny',
-
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
 
     'DEFAULT_RENDERER_CLASSES': (
