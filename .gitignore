@@ -1,3 +1,5 @@
+.idea
+config.py
 
 # Created by https://www.toptal.com/developers/gitignore/api/python,macos,visualstudiocode,linux,zsh
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,macos,visualstudiocode,linux,zsh
@@ -267,5 +269,3 @@ zsdoc/data
 !/tests/_output/.gitkeep
 
 # End of https://www.toptal.com/developers/gitignore/api/python,macos,visualstudiocode,linux,zsh
-
-config.py
