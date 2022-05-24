@@ -17,9 +17,6 @@ class Post(models.Model):
         db_table = 'posts'
         ordering = ('update_dt',)
 
-    def __str__(self):
-        return self.title
-
 
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
