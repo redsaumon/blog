@@ -1,16 +1,28 @@
-from django.contrib.auth import get_user_model
 from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 
 class IsOwnerOrReadOnly(BasePermission):
+    def has_permission(self, request, view):
+        print(11)
+        return request.user.is_authenticated
+
     def has_object_permission(self, request, view, obj):
-        print(111231231231231231231231)
+        print(22)
         if request.method in SAFE_METHODS:
             return True
-        print('====',obj['post'].user)
-        print(request.user)
+        return obj.user.id == reuqest.user.id
 
-        return obj.user == request.user
+
+# class IsOwnerOrReadOnly(BasePermission):
+#     def has_object_permission(self, request, view, obj):
+#         print(111231231231231231231231)
+#         if request.method in SAFE_METHODS:
+#             return True
+#         #print('====',obj['post'].user) # post일 때는 가능하지만 comment 객체일 때는 해당 키값이 없음;;
+#         print(request.user)
+#         return obj.user.id == request.user.id
+
+
 
     # dir(request.user)
     # ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__',

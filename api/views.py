@@ -1,5 +1,6 @@
 from collections import OrderedDict
 
+from django.shortcuts import get_object_or_404
 from rest_framework.generics import GenericAPIView, ListAPIView, CreateAPIView, RetrieveDestroyAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
@@ -17,6 +18,12 @@ class CommentViewSet(ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permissions_class = [IsOwnerOrReadOnly]
+
+    def get_object(self):
+        obj = get_object_or_404(self.get_queryset(), pk=self.kwargs["pk"])
+        self.check_object_permissions(self.request, obj)
+        print(self.check_object_permissions(self.request, obj))
+        return obj
 
     def perform_create(self, serializer):
         user = self.request.user
@@ -96,7 +103,7 @@ def get_prev_next(instance):
 class PostRetrieveAPIView(RetrieveDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializerDetail
-    permissions_class = (IsOwnerOrReadOnly, )
+    permissions_class = (IsOwnerOrReadOnly)
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -118,3 +125,12 @@ class PostRetrieveAPIView(RetrieveDestroyAPIView):
             'format': self.format_kwarg,
             'view': self
         }
+
+    def get_object(self):
+        obj = get_object_or_404(self.get_queryset(), pk=self.kwargs["pk"])
+        print('==========')
+        print(self.get_permissions()) #IsAuthenticatedOrReadOnly ? 전역으로 잡아둔 애가 옴
+
+        self.check_object_permissions(self.request, obj)
+        print(self.check_object_permissions(self.request, obj))
+        return obj
