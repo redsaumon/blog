@@ -11,18 +11,11 @@ from api.serializers import CommentSerializer, PostListSerializer, \
     CateTagSerializer, PostSerializerDetail, PostSerializer
 from api.models import Post, Comment, Category, Tag
 from config import config
-from common.permissions import IsOwnerOrReadOnly
 
 
 class CommentViewSet(ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    permission_classes = [IsOwnerOrReadOnly]
-
-    def get_object(self):
-        obj = Post.objects.get(id=self.kwargs["pk"])
-        self.check_object_permissions(self.request, obj)
-        return obj
 
     def perform_create(self, serializer):
         user = self.request.user
@@ -102,7 +95,6 @@ def get_prev_next(instance):
 class PostRetrieveAPIView(RetrieveDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializerDetail
-    permission_classes = [IsOwnerOrReadOnly]
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -124,8 +116,3 @@ class PostRetrieveAPIView(RetrieveDestroyAPIView):
             'format': self.format_kwarg,
             'view': self
         }
-
-    def get_object(self):
-        obj = Post.objects.get(id=self.kwargs["pk"])
-        self.check_object_permissions(self.request, obj)
-        return obj

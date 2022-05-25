@@ -25,8 +25,8 @@ class CustomRegisterSerializer(RegisterSerializer):
 
     def validate_phone_number(self, phone_number):
         if not re.match(r'\d{2,3}-\d{3,4}-\d{4}', phone_number):
-            raise serializers.ValidationError({'phone_number': ['Phone number formatted incorrectly']})
+            raise serializers.ValidationError('Phone number formatted incorrectly.')
 
         if User.objects.filter(phone_number=phone_number).exists():
-            raise serializers.ValidationError({'phone_number': ['Phone number already exists']})
+            raise serializers.ValidationError('A user is already registered with this Phone number.')
         return phone_number
