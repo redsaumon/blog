@@ -2,6 +2,7 @@
 - Python3
 - Django
 - DRF
+- django-allauth
 - MySql
 
 <br>
