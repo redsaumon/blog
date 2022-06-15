@@ -15,7 +15,6 @@
 .
 ├── README.md
 ├── api
-│   ├── __init__.py
 │   ├── admin.py
 │   ├── apps.py
 │   ├── migrations
@@ -24,22 +23,20 @@
 │   ├── tests.py
 │   ├── urls.py
 │   └── views.py
-├── board
-│   ├── __init__.py
-│   ├── asgi.py
-│   ├── settings.py
-│   ├── urls.py
-│   └── wsgi.py
 ├── common
 │   └── permissions.py
-├── config
-│   └── config.py
-├── local.py
-├── main.py
+├── configs
+│   ├── asgi.py
+│   ├── base.py
+│   ├── config.py
+│   ├── config.py
+│   ├── local.py
+│   ├── prod.py
+│   ├── urls.py
+│   └── wsgi.py
 ├── manage.py
 ├── requirements.txt
 └── users
-    ├── __init__.py
     ├── adapter.py
     ├── admin.py
     ├── apps.py
@@ -53,7 +50,7 @@
 ```
 - api: 블로그 관련 API 기능 코드는 전부 이 api 모듈에 포함 되어 있습니다.
 - users: 로그인, 회원가입 등 유저와 관련된 API 기능 코드를 포함 힙니다.
-- config.py: 서버를 실행시키기 위한 설정 값이 정의 되어 있는 파일입니다. 주로 local db 정보를 담고 있습니다.
+- config.py: 서버와 API를 실행시키기 위한 설정 값이 정의 되어 있는 파일입니다.
 
 <br>
 <br>
@@ -79,5 +76,5 @@
 
 6. managy.py가 있는 위치로 이동 후 서버를 킵니다.
     ```
-    python managy.py runserver
+    python managy.py runserver --settings=configs.local
     ```

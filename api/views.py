@@ -10,7 +10,7 @@ from rest_framework.viewsets import ModelViewSet
 from api.serializers import CommentSerializer, PostListSerializer, \
     CateTagSerializer, PostSerializerDetail, PostSerializer
 from api.models import Post, Comment, Category, Tag
-from config import config
+from configs import config
 
 
 class CommentViewSet(ModelViewSet):
