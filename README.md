@@ -21,7 +21,6 @@
 │   ├── migrations
 │   ├── models.py
 │   ├── serializers.py
-│   ├── tests.py
 │   ├── urls.py
 │   └── views.py
 ├── common
@@ -30,13 +29,16 @@
 │   ├── asgi.py
 │   ├── base.py
 │   ├── config.py
-│   ├── config.py
 │   ├── local.py
 │   ├── prod.py
 │   ├── urls.py
 │   └── wsgi.py
 ├── manage.py
 ├── requirements.txt
+├── tests
+│   ├── test_comment.py
+│   ├── test_post.py
+│   └── test_user.py
 └── users
     ├── adapter.py
     ├── admin.py
@@ -44,14 +46,14 @@
     ├── migrations
     ├── models.py
     ├── serializers.py
-    ├── tests.py
     ├── urls.py
     └── views.py
 
 ```
-- api: 블로그 관련 API 기능 코드는 전부 이 api 모듈에 포함 되어 있습니다.
-- users: 로그인, 회원가입 등 유저와 관련된 API 기능 코드를 포함 힙니다.
-- config.py: 서버와 API를 실행시키기 위한 설정 값이 정의 되어 있는 파일입니다.
+- `api`: 블로그 관련 API 기능 코드는 전부 이 api 모듈에 포함 되어 있습니다.
+- `users`: 로그인, 회원가입 등 유저와 관련된 API 기능 코드를 포함 힙니다.
+- `tests`: Unit test 파일들을 담고 있는 모듈입니다.
+- `config.py`: 서버와 API를 실행시키기 위한 설정 값이 정의 되어 있는 파일입니다.
 
 <br>
 <br>
