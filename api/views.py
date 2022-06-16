@@ -1,6 +1,5 @@
 from collections import OrderedDict
 
-from django.shortcuts import get_object_or_404
 from rest_framework.generics import GenericAPIView, ListAPIView, CreateAPIView, RetrieveDestroyAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response

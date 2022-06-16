@@ -1,6 +1,9 @@
 from rest_framework import status
-from rest_framework.test import APITestCase
+from rest_framework.test import APITestCase, APIClient
+
 from users.models import User
+
+client = APIClient()
 
 
 class SignupTests(APITestCase):
@@ -12,6 +15,9 @@ class SignupTests(APITestCase):
             name="test",
             phone_number="010-1234-1234"
         )
+    
+    def tearDown(self):
+        User.objects.all().delete()
 
     def test_success_signup(self):
         url = '/dj-rest-auth/registration/'
@@ -22,10 +28,12 @@ class SignupTests(APITestCase):
                 "name":"test1",
                 "phone_number":"010-1111-1111"
             }
+
         response = self.client.post(url, data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(User.objects.last().email, "test1@email.com")
+        self.assertEqual(response.data['user']['email'], "test1@email.com")
+        
     
     def test_fail_signup_without_body(self):
         url = '/dj-rest-auth/registration/'
@@ -60,7 +68,7 @@ class SignupTests(APITestCase):
                 "phone_number":"010-1234-1234"
         }
         response = self.client.post(url, data, format='json')
-        
+
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.data, {
                                             "email": [
@@ -71,5 +79,49 @@ class SignupTests(APITestCase):
                                             ],
                                             "phone_number": [
                                                 "A user is already registered with this Phone number."
+                                            ]
+                                        })
+
+
+class LoginTests(APITestCase):
+    @classmethod
+    def setUpTestData(cls):
+        signup_url = '/dj-rest-auth/registration/'
+        user_data = {
+                "email":"test@email.com",
+                "password1":"test1234",
+                "password2":"test1234",
+                "name":"test",
+                "phone_number":"010-1234-1234"
+            }
+
+        client.post(signup_url, user_data, format='json')
+
+    def tearDown(self):
+        User.objects.all().delete()
+
+    def test_success_login(self):
+        url = '/dj-rest-auth/login/'
+        data = {
+                "email":"test@email.com",
+                "password":"test1234",
+            }
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['user']['email'], "test@email.com")
+    
+    def test_fail_login_with_wrong_password(self):
+        url = '/dj-rest-auth/login/'
+        data = {
+                "email":"test@email.com",
+                "password":"wrong",
+            }
+        response = self.client.post(url, data, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data, {
+                                            "non_field_errors": [
+                                                "Unable to log in with provided credentials."
                                             ]
                                         })
