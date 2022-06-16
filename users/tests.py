@@ -125,3 +125,46 @@ class LoginTests(APITestCase):
                                                 "Unable to log in with provided credentials."
                                             ]
                                         })
+
+
+class LogoutTests(APITestCase):
+    @classmethod
+    def setUpTestData(cls):
+        signup_url = '/dj-rest-auth/registration/'
+        user_data = {
+                "email":"test@email.com",
+                "password1":"test1234",
+                "password2":"test1234",
+                "name":"test",
+                "phone_number":"010-1234-1234"
+            }
+
+        client.post(signup_url, user_data, format='json')
+
+    def tearDown(self):
+        User.objects.all().delete()
+
+    def test_success_logout(self):
+        login_url = '/dj-rest-auth/login/'
+        data = {
+                "email":"test@email.com",
+                "password":"test1234",
+            }
+        response = self.client.post(login_url, data, format='json')
+
+        url = '/dj-rest-auth/logout/'
+        response = self.client.post(url, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.data, {
+                                            "detail": "Refresh token was not included in request data."
+                                        })
+    
+    def test_fail_logout(self):
+        url = '/dj-rest-auth/logout/'
+        response = self.client.post(url, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.data, {
+                                            "detail": "Refresh token was not included in request data."
+                                        })
