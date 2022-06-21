@@ -1,15 +1,14 @@
-FROM ubuntu:20.04
+FROM python:3.8
 
-RUN apt update  && apt install -y python3 && apt install -y pip
+WORKDIR /app/
 
-WORKDIR /usr/src/app 
+# Install Production Depedencies First 
+COPY requirements/ /app/requirements/
+RUN pip install --no-cache-dir -r requirements/requirements-dev.txt
 
-## Install packages
-COPY requirements.txt ./ 
-RUN pip install -r requirements.txt
+# Bundle app source
+COPY . /app/
 
-## Copy all src files
-COPY . . 
 
 ## Run the application on the port 8080
 EXPOSE 8000   
