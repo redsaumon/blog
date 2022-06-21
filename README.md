@@ -14,8 +14,9 @@
 
 ```
 .
-├── README.md
 ├── Dockerfile
+├── Dockerfile-dev
+├── README.md
 ├── api
 │   ├── admin.py
 │   ├── apps.py
@@ -30,12 +31,15 @@
 │   ├── asgi.py
 │   ├── base.py
 │   ├── config.py
+│   ├── dev.py
 │   ├── local.py
 │   ├── prod.py
 │   ├── urls.py
 │   └── wsgi.py
 ├── manage.py
-├── requirements.txt
+├── requirements
+│   ├── requirements-dev.txt
+│   └── requirements.txt
 ├── tests
 │   ├── test_comment.py
 │   ├── test_post.py
