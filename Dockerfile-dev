@@ -1,0 +1,13 @@
+#########################################################
+# Dockerfile-dev for docker-compose (Dependencies, Build)
+#########################################################
+FROM python:3.8
+
+ENV PYTHONUNBUFFERED 1
+
+# Set a working directory
+WORKDIR /app/
+
+# Install Production Depedencies First
+COPY requirements/ /app/requirements/
+RUN pip install --upgrade pip --no-cache-dir -r requirements/requirements-dev.txt

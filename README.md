@@ -2,7 +2,7 @@
 - Python3
 - Django
 - DRF
-- django-allauth
+- dj-rest-auth, django-allauth
 - MySql
 
 <br>

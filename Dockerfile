@@ -4,7 +4,7 @@ WORKDIR /app/
 
 # Install Production Depedencies First 
 COPY requirements/ /app/requirements/
-RUN pip install --no-cache-dir -r requirements/requirements-dev.txt
+RUN pip install  --upgrade pip --no-cache-dir -r requirements/requirements-dev.txt
 
 # Bundle app source
 COPY . /app/
@@ -14,4 +14,4 @@ COPY . /app/
 EXPOSE 8000   
 
 # gunicorn 사용해서 서버를 실행
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "blog.wsgi:application"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "configs.wsgi:application"]
