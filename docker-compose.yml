@@ -1,0 +1,46 @@
+version: "3"
+
+volumes:
+  data: {}
+
+services:
+  db:
+    platform: linux/x86_64
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_USER=root
+      - MYSQL_DATABASE=blog
+      - MYSQL_PASSWORD=password
+    ports:
+      - 3306:3306
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_general_ci
+      - --default-authentication-plugin=mysql_native_password
+    volumes:
+      - data:/var/lib/mysql
+  api:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - .:/app/
+    environment:
+      - DB_NAME=blog
+      - DB_USER=root
+      - DB_HOST=db
+      - DB_PASSWORD=password
+      - DB_PORT=3306
+      - SECRET_KEY=secretkey
+      - ALGORITHM=HS256
+    ports:
+      - 8000:8000
+    restart: always
+    depends_on:
+      - db
+    command: >-
+        sh -c 'python manage.py check --database default --settings=configs.local &&
+               python manage.py makemigrations --settings=configs.local &&
+               python manage.py migrate --settings=configs.local &&
+               python manage.py runserver 0.0.0.0:8000 --settings=configs.local'
