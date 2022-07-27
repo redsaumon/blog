@@ -78,11 +78,11 @@
 
 5. managy.py가 있는 위치로 이동 후 다음 명령어로 DB를 생성합니다.
     ```
-    python managy.py makemigrations
-    python managy.py migrate
+    python manage.py makemigrations
+    python manage.py migrate
     ```
 
 6. managy.py가 있는 위치로 이동 후 서버를 킵니다.
     ```
-    python managy.py runserver --settings=configs.local
+    python manage.py runserver --settings=configs.local
     ```
